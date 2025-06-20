@@ -1,0 +1,23 @@
+runtime: nodejs20
+
+env_variables:
+  NODE_ENV: production
+
+automatic_scaling:
+  min_instances: 1
+  max_instances: 10
+  target_cpu_utilization: 0.6
+
+handlers:
+- url: /_next/static
+  static_dir: .next/static
+  secure: always
+
+- url: /(.*\.(gif|png|jpg|ico|svg|js|css|txt|xml|woff|woff2|ttf|eot))$
+  static_files: public/\1
+  upload: public/.*\.(gif|png|jpg|ico|svg|js|css|txt|xml|woff|woff2|ttf|eot)$
+  secure: always
+
+- url: /.*
+  script: auto
+  secure: always 

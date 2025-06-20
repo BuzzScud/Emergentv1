@@ -1,0 +1,51 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', 
+      '-t', 
+      'gcr.io/$PROJECT_ID/sidebar-app:$COMMIT_SHA', 
+      '-t', 
+      'gcr.io/$PROJECT_ID/sidebar-app:latest',
+      '.'
+    ]
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push', 
+      '--all-tags',
+      'gcr.io/$PROJECT_ID/sidebar-app'
+    ]
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'run',
+      'deploy',
+      'sidebar-app',
+      '--image',
+      'gcr.io/$PROJECT_ID/sidebar-app:$COMMIT_SHA',
+      '--region',
+      'us-central1',
+      '--platform',
+      'managed',
+      '--allow-unauthenticated',
+      '--port',
+      '3000',
+      '--memory',
+      '512Mi',
+      '--cpu',
+      '1'
+    ]
+
+# Store images in Google Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/sidebar-app:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/sidebar-app:latest'
+
+# Build options
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_8' 
