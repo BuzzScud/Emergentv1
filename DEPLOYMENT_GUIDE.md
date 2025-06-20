@@ -250,3 +250,9 @@ After successful deployment:
 3. Implement CI/CD pipeline
 4. Set up staging environment
 5. Configure custom domain and SSL 
+
+# Add the GitHub repository as remote origin (SSH)
+git remote add origin git@github.com:BuzzScud/emergent-fortuity.git
+
+# Push the code to GitHub
+git push -u origin main 

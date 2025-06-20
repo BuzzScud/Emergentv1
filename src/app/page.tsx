@@ -22,7 +22,10 @@ export default function HomePage() {
   // Show loading state while checking authentication
   return (
     <div className="min-h-screen login-gradient flex items-center justify-center">
-      <Loader2 className="h-8 w-8 animate-spin text-slate-600 dark:text-slate-400" />
+      <div className="flex flex-col items-center space-y-4">
+        <Loader2 className="h-8 w-8 animate-spin text-slate-600 dark:text-slate-400" />
+        <p className="text-sm text-slate-600 dark:text-slate-400">Loading...</p>
+      </div>
     </div>
   )
 }

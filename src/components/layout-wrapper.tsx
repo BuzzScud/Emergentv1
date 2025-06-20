@@ -15,10 +15,31 @@ interface LayoutWrapperProps {
 
 export function LayoutWrapper({ children }: LayoutWrapperProps) {
   const pathname = usePathname()
-  const isLoginPage = pathname === '/login' || pathname === '/signup'
+  
+  // List of pages that should NOT show the sidebar
+  const authPages = [
+    '/',
+    '/login',
+    '/signup',
+    '/forgot-password',
+    '/reset-password'
+  ]
+  
+  // Check if current path is an auth page
+  const isAuthPage = authPages.includes(pathname)
+  
+  // Additional check for any path starting with auth-related routes
+  const isAuthRoute = pathname.startsWith('/login') || 
+                     pathname.startsWith('/signup') || 
+                     pathname.startsWith('/auth') ||
+                     pathname === '/'
 
-  if (isLoginPage) {
-    return <>{children}</>
+  if (isAuthPage || isAuthRoute) {
+    return (
+      <div className="w-full h-full">
+        {children}
+      </div>
+    )
   }
 
   return (
